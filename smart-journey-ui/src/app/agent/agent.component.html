@@ -1,0 +1,112 @@
+<div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center align-items-start mb-4 gap-3">
+  <h3 class="fw-bold text-primary mb-0"><i class="bi bi-person-badge me-2"></i>Cajero — Registrar VoyagePass</h3>
+</div>
+
+<div class="row fade-in">
+
+  <!-- Formulario -->
+  <div class="col-md-4 mb-4">
+    <form class="premium-card p-4 h-100" [formGroup]="voyagePassForm" (ngSubmit)="register()">
+      <h5 class="fw-bold mb-4"><i class="bi bi-voyage-pass-perforated me-2 text-primary"></i>Nuevo VoyagePass</h5>
+
+      @if (errorMsg) {
+      <div class="alert alert-danger">{{ errorMsg }}</div>
+      }
+
+      <div class="mb-3">
+        <label class="form-label text-muted small fw-bold text-uppercase">Ruta</label>
+        <select class="form-select border-start-0 border-end-0 border-top-0 rounded-0 px-1 bg-light"
+          formControlName="selectedRouteId">
+          <option [ngValue]="null" disabled>Seleccione una ruta</option>
+          @for (r of routes; track r.id) {
+          <option [ngValue]="r.id">{{ r.name }} ({{ r.origin }} → {{ r.destination }})</option>
+          }
+        </select>
+      </div>
+
+      @if (selectedRoute) {
+      <div class="alert alert-info py-2 mb-3">
+        <i class="bi bi-info-circle me-2"></i>Precio: <strong>$ {{ selectedRoute.price | number:'1.2-2' }}</strong>
+      </div>
+      }
+
+      <div class="mb-3">
+        <label class="form-label text-muted small fw-bold text-uppercase">Fecha de viaje</label>
+        <input class="form-control border-start-0 border-end-0 border-top-0 rounded-0 px-1 bg-light" type="date"
+          formControlName="travelDate" [min]="today">
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label text-muted small fw-bold text-uppercase">Nombre del Pasajero</label>
+        <input class="form-control border-start-0 border-end-0 border-top-0 rounded-0 px-1 bg-light"
+          formControlName="passengerName" placeholder="Nombre completo">
+      </div>
+
+      <div class="mb-4">
+        <label class="form-label text-muted small fw-bold text-uppercase">Documento</label>
+        <input class="form-control border-start-0 border-end-0 border-top-0 rounded-0 px-1 bg-light"
+          formControlName="passengerDocument" placeholder="Cédula o pasaporte">
+      </div>
+
+      <button class="btn btn-primary w-100 rounded-pill shadow-sm" type="submit"
+        [disabled]="saving || voyagePassForm.invalid">
+        @if (saving) { <span class="spinner-border spinner-border-sm me-1"></span> }
+        <i class="bi bi-check2-circle me-1"></i> Registrar
+      </button>
+    </form>
+  </div>
+
+  <!-- Historial de voyagePasses -->
+  <div class="col-md-8 mb-4">
+    <div class="premium-card p-4 h-100">
+      <div
+        class="d-flex flex-column flex-md-row justify-content-between align-items-md-center align-items-start mb-4 gap-3">
+        <h5 class="fw-bold mb-0"><i class="bi bi-clock-history me-2 text-primary"></i>Historial de VoyagePasss</h5>
+        <button class="btn btn-sm btn-outline-primary rounded-pill px-3" (click)="loadVoyagePasss()">
+          <i class="bi bi-arrow-clockwise me-1"></i> Actualizar
+        </button>
+      </div>
+
+      <div class="table-responsive">
+        <table class="table table-hover align-middle">
+          <thead class="table-light">
+            <tr>
+              <th>#</th>
+              <th>Pasajero</th>
+              <th>Documento</th>
+              <th>Trayecto</th>
+              <th>Precio</th>
+              <th>Fecha Viaje</th>
+              <th>Estado</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (t of voyagePasses; track t.id) {
+            <tr>
+              <td><span class="badge bg-secondary rounded-pill">#{{ t.id }}</span></td>
+              <td class="fw-bold text-dark">{{ t.passengerName }}</td>
+              <td>{{ t.passengerDocument }}</td>
+              <td><i class="bi bi-signpost-split me-1 text-muted"></i>{{ t.transitLine.origin }} → {{
+                t.transitLine.destination }}</td>
+              <td class="text-success fw-bold">$ {{ t.price | number:'1.2-2' }}</td>
+              <td>{{ t.travelDate | date:'dd/MM/yyyy' }}</td>
+              <td>
+                <span class="badge" [class.bg-success]="t.status === 'VALID'"
+                  [class.bg-danger]="t.status === 'CANCELLED'">
+                  {{ t.status }}
+                </span>
+              </td>
+            </tr>
+            } @empty {
+            <tr>
+              <td colspan="7" class="text-center py-4 text-muted"><i class="bi bi-inbox fs-3 d-block mb-2"></i> Sin
+                voyagePasses registrados.</td>
+            </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+</div>

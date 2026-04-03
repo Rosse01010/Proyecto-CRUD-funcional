@@ -1,0 +1,112 @@
+<div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center align-items-start mb-4 gap-3">
+  <h3 class="fw-bold text-primary mb-0"><i class="bi bi-map me-2"></i>Rutas de Bus</h3>
+  <button class="btn btn-primary rounded-pill px-4 shadow-sm w-100 w-md-auto" (click)="openCreate()">
+    <i class="bi bi-plus-lg me-2"></i>Nueva Ruta
+  </button>
+</div>
+
+<!-- Modal -->
+@if (showForm) {
+<div class="modal d-block fade show" style="background:rgba(15, 23, 42, 0.6); backdrop-filter: blur(4px);">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content border-0 shadow-lg rounded-4">
+      <div class="modal-header border-bottom-0 pt-4 px-4">
+        <h5 class="modal-title fw-bold text-primary">
+          <i class="bi bi-pencil-square me-2"></i>{{ editingId ? 'Editar Ruta' : 'Nueva Ruta' }}
+        </h5>
+        <button class="btn-close" (click)="cancel()"></button>
+      </div>
+      <form [formGroup]="routeForm" (ngSubmit)="save()">
+        <div class="modal-body px-4">
+          @if (errorMsg) {
+          <div class="alert alert-danger rounded-3"><i class="bi bi-exclamation-triangle me-2"></i>{{ errorMsg }}</div>
+          }
+          <div class="mb-3">
+            <label class="form-label text-muted small fw-bold text-uppercase">Nombre</label>
+            <input class="form-control" formControlName="name" placeholder="Ej: Ruta Express Norte">
+          </div>
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label class="form-label text-muted small fw-bold text-uppercase">Origen</label>
+              <input class="form-control" formControlName="origin" placeholder="Ciudad A">
+            </div>
+            <div class="col-md-6 mb-3">
+              <label class="form-label text-muted small fw-bold text-uppercase">Destino</label>
+              <input class="form-control" formControlName="destination" placeholder="Ciudad B">
+            </div>
+          </div>
+          <div class="mb-4">
+            <label class="form-label text-muted small fw-bold text-uppercase">Precio</label>
+            <div class="input-group">
+              <span class="input-group-text bg-white">$</span>
+              <input class="form-control" type="number" formControlName="price" min="0" step="0.01" placeholder="0.00">
+            </div>
+            <div class="form-text mt-2"><i class="bi bi-info-circle me-1"></i> Este precio se registra en cada voyage-pass
+              generado.</div>
+          </div>
+          <div class="form-check form-switch fs-5">
+            <input class="form-check-input mt-1" type="checkbox" formControlName="isActive" id="isActive" role="switch">
+            <label class="form-check-label fs-6 ms-2 pt-1" for="isActive">Ruta Activa</label>
+          </div>
+        </div>
+        <div class="modal-footer border-top-0 pb-4 px-4">
+          <button type="button" class="btn btn-light rounded-pill px-4" (click)="cancel()">Cancelar</button>
+          <button type="submit" class="btn btn-primary rounded-pill px-4 shadow-sm"
+            [disabled]="saving || routeForm.invalid">
+            @if (saving) { <span class="spinner-border spinner-border-sm me-1"></span> }
+            <i class="bi bi-check2 me-1"></i> Guardar
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+}
+
+<div class="premium-card p-4 fade-in">
+  <div class="table-responsive">
+    <table class="table table-hover align-middle mb-0">
+      <thead class="table-light">
+        <tr>
+          <th>#</th>
+          <th>Nombre</th>
+          <th>Origen</th>
+          <th>Destino</th>
+          <th>Precio</th>
+          <th>Estado</th>
+          <th class="text-end">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (r of routes; track r.id) {
+        <tr>
+          <td><span class="badge bg-light text-dark border">#{{ r.id }}</span></td>
+          <td class="fw-bold">{{ r.name }}</td>
+          <td>{{ r.origin }}</td>
+          <td>{{ r.destination }}</td>
+          <td class="text-success fw-bold">$ {{ r.price | number:'1.2-2' }}</td>
+          <td>
+            <span class="badge rounded-pill" [class.bg-success]="r.isActive" [class.bg-secondary]="!r.isActive">
+              <i class="bi" [class.bi-check-circle]="r.isActive" [class.bi-x-circle]="!r.isActive"></i>
+              {{ r.isActive ? 'Activa' : 'Inactiva' }}
+            </span>
+          </td>
+          <td class="text-end">
+            <button class="btn btn-sm btn-light text-primary me-2 rounded-circle" (click)="openEdit(r)" title="Editar">
+              <i class="bi bi-pencil"></i>
+            </button>
+            <button class="btn btn-sm btn-light text-danger rounded-circle" (click)="delete(r.id)" title="Eliminar">
+              <i class="bi bi-trash"></i>
+            </button>
+          </td>
+        </tr>
+        } @empty {
+        <tr>
+          <td colspan="7" class="text-center py-5 text-muted"><i class="bi bi-map fs-1 d-block mb-3 text-light"></i> No
+            hay rutas registradas.</td>
+        </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>

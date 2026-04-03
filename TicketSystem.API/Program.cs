@@ -1,8 +1,8 @@
 using Microsoft.EntityFrameworkCore;
-using TicketSystem.API.Data;
-using TicketSystem.API.Mappings;
-using TicketSystem.API.Services;
-using TicketSystem.API.Services.Interfaces;
+using SmartJourney.API.Data;
+using SmartJourney.API.Mappings;
+using SmartJourney.API.Services;
+using SmartJourney.API.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,7 +11,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlite("Data Source=tickets.db"));
+    options.UseSqlite("Data Source=transit_core.db"));
 
 builder.Services.AddCors(options =>
 {
@@ -25,12 +25,12 @@ builder.Services.AddCors(options =>
 
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 
-builder.Services.AddScoped<IBusRouteService, BusRouteService>();
-builder.Services.AddScoped<ITicketService, TicketService>();
+builder.Services.AddScoped<ITransitLineService, TransitLineService>();
+builder.Services.AddScoped<IVoyagePassService, VoyagePassService>();
 
 var app = builder.Build();
 
-app.UseMiddleware<TicketSystem.API.Middlewares.GlobalExceptionMiddleware>();
+app.UseMiddleware<SmartJourney.API.Middlewares.GlobalExceptionMiddleware>();
 
 using (var scope = app.Services.CreateScope())
 {

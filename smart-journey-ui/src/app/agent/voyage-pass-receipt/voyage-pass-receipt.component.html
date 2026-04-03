@@ -1,0 +1,87 @@
+<!-- Controles en pantalla (se ocultan al imprimir) -->
+<div class="no-print d-flex justify-content-center mb-4 fade-in">
+  <div class="premium-card p-4 text-center mt-4" style="max-width: 500px; width: 100%;">
+    <h4 class="fw-bold mb-3"><i class="bi bi-printer me-2 text-primary"></i>Generar Comprobante</h4>
+    @if (loading) {
+    <div class="d-flex align-items-center justify-content-center my-3 text-muted">
+      <span class="spinner-border spinner-border-sm me-2"></span> Cargando voyage-pass...
+    </div>
+    }
+    @if (errorMsg) {
+    <div class="alert alert-danger rounded-3"><i class="bi bi-exclamation-triangle me-2"></i>{{ errorMsg }}</div>
+    }
+    @if (voyage-pass) {
+    <div class="d-flex justify-content-center gap-3 mt-3">
+      <button class="btn btn-primary rounded-pill px-4 shadow-sm" (click)="print()">
+        <i class="bi bi-printer-fill me-1"></i> Imprimir
+      </button>
+      <button class="btn btn-light rounded-pill px-4 text-secondary" (click)="back()">
+        <i class="bi bi-arrow-left me-1"></i> Volver al Cajero
+      </button>
+    </div>
+    }
+  </div>
+</div>
+
+<!-- Comprobante imprimible -->
+@if (voyage-pass) {
+<div class="voyage-pass-print">
+  <div class="voyage-pass-box">
+
+    <div class="voyage-pass-header">
+      <h2>TICKET DE VIAJE</h2>
+      <p class="voyage-pass-company">Sistema de Transporte</p>
+    </div>
+
+    <div class="voyage-pass-body">
+      <div class="voyage-pass-row">
+        <span class="voyage-pass-label">VoyagePass #</span>
+        <span class="voyage-pass-value">{{ voyage-pass.id }}</span>
+      </div>
+      <div class="voyage-pass-row">
+        <span class="voyage-pass-label">Ruta</span>
+        <span class="voyage-pass-value">{{ voyage-pass.transitLine.name }}</span>
+      </div>
+      <div class="voyage-pass-row">
+        <span class="voyage-pass-label">Origen</span>
+        <span class="voyage-pass-value">{{ voyage-pass.transitLine.origin }}</span>
+      </div>
+      <div class="voyage-pass-row">
+        <span class="voyage-pass-label">Destino</span>
+        <span class="voyage-pass-value">{{ voyage-pass.transitLine.destination }}</span>
+      </div>
+      <div class="voyage-pass-row">
+        <span class="voyage-pass-label">Pasajero</span>
+        <span class="voyage-pass-value">{{ voyage-pass.passengerName }}</span>
+      </div>
+      <div class="voyage-pass-row">
+        <span class="voyage-pass-label">Documento</span>
+        <span class="voyage-pass-value">{{ voyage-pass.passengerDocument }}</span>
+      </div>
+      <div class="voyage-pass-row">
+        <span class="voyage-pass-label">Precio</span>
+        <span class="voyage-pass-value">$ {{ voyage-pass.price | number:'1.2-2' }}</span>
+      </div>
+      <div class="voyage-pass-row">
+        <span class="voyage-pass-label">Fecha Viaje</span>
+        <span class="voyage-pass-value">{{ voyage-pass.travelDate | date:'dd/MM/yyyy' }}</span>
+      </div>
+      <div class="voyage-pass-row">
+        <span class="voyage-pass-label">Emisión</span>
+        <span class="voyage-pass-value">{{ voyage-pass.issuedAt | date:'dd/MM/yyyy HH:mm' }}</span>
+      </div>
+    </div>
+
+    <div class="voyage-pass-qr">
+      <qrcode [qrdata]="voyage-pass.validationCode" [width]="160" [errorCorrectionLevel]="'M'" [allowEmptyString]="false">
+      </qrcode>
+      <p class="voyage-pass-code">{{ voyage-pass.validationCode }}</p>
+    </div>
+
+    <div class="voyage-pass-footer">
+      <p>Conserve este voyage-pass durante todo el viaje.</p>
+    </div>
+
+  </div>
+</div>
+}

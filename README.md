@@ -1,11 +1,11 @@
-# Sistema de Tickets
+# Sistema de VoyagePasss
 
-Sistema de venta y gestión de tickets de transporte. Permite registrar rutas de bus, emitir tickets con código QR para validación, y gestionar el estado de cada ticket.
+Sistema de venta y gestión de voyagePasses de transporte. Permite registrar rutas de bus, emitir voyagePasses con código QR para validación, y gestionar el estado de cada voyage-pass.
 
 ## Roles
 
-- **Administrador**: gestiona rutas y consulta/valida/elimina tickets emitidos.
-- **Cajero**: registra nuevos tickets y genera el comprobante imprimible con código QR.
+- **Administrador**: gestiona rutas y consulta/valida/elimina voyagePasses emitidos.
+- **Cajero**: registra nuevos voyagePasses y genera el comprobante imprimible con código QR.
 
 ## Requisitos
 
@@ -16,14 +16,14 @@ Sistema de venta y gestión de tickets de transporte. Permite registrar rutas de
 
 **API:**
 ```bash
-cd TicketSystem.API
+cd SmartJourney.API
 dotnet run
 ```
 Disponible en `http://localhost:5110`
 
 **Frontend:**
 ```bash
-cd ticket-system-ui
+cd smart-journey-ui
 npx ng serve
 ```
 Disponible en `http://localhost:4200`

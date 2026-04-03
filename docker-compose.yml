@@ -1,7 +1,7 @@
 services:
   backend:
     build:
-      context: ./TicketSystem.API
+      context: ./SmartJourney.API
       dockerfile: Dockerfile
     ports:
       - "5110:8080"
@@ -12,7 +12,7 @@ services:
 
   frontend:
     build:
-      context: ./ticket-system-ui
+      context: ./smart-journey-ui
       dockerfile: Dockerfile
     ports:
       - "4200:80"

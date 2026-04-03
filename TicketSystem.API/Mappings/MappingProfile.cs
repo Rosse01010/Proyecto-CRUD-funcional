@@ -1,20 +1,20 @@
 using AutoMapper;
-using TicketSystem.API.DTOs;
-using TicketSystem.API.Models;
+using SmartJourney.API.DTOs;
+using SmartJourney.API.Models;
 
-namespace TicketSystem.API.Mappings;
+namespace SmartJourney.API.Mappings;
 
 public class MappingProfile : Profile
 {
     public MappingProfile()
     {
-        // BusRoute
-        CreateMap<BusRoute, BusRouteResponseDto>();
-        CreateMap<CreateBusRouteDto, BusRoute>();
-        CreateMap<UpdateBusRouteDto, BusRoute>();
+        // TransitLine
+        CreateMap<TransitLine, TransitLineResponseDto>();
+        CreateMap<CreateTransitLineDto, TransitLine>();
+        CreateMap<UpdateTransitLineDto, TransitLine>();
 
-        // Ticket — los campos generados (ValidationCode, Price, IssuedAt, Status)
+        // VoyagePass — los campos generados (ValidationCode, Price, IssuedAt, Status)
         // son responsabilidad del servicio, no del mapping
-        CreateMap<Ticket, TicketResponseDto>();
+        CreateMap<VoyagePass, VoyagePassResponseDto>();
     }
 }
