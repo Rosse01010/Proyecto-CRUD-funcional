@@ -1,0 +1,23 @@
+services:
+  backend:
+    build:
+      context: ./TicketSystem.API
+      dockerfile: Dockerfile
+    ports:
+      - "5110:8080"
+    volumes:
+      - sqlite_data:/app
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+
+  frontend:
+    build:
+      context: ./ticket-system-ui
+      dockerfile: Dockerfile
+    ports:
+      - "4200:80"
+    depends_on:
+      - backend
+
+volumes:
+  sqlite_data:

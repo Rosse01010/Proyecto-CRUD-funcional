@@ -1,0 +1,13 @@
+bin/
+obj/
+node_modules/
+.vs/
+.vscode/
+
+# Database files
+*.db
+*.sqlite
+
+# Angular builds
+dist/
+.angular/

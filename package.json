@@ -1,0 +1,16 @@
+{
+    "name": "tickettransport-root",
+    "version": "1.0.0",
+    "description": "Root package.json to easily run both the .NET API and Angular UI simultaneously.",
+    "scripts": {
+        "install:all": "cd ticket-system-ui && npm install",
+        "dev:api": "cd TicketSystem.API && dotnet run",
+        "dev:ui": "cd ticket-system-ui && npm run start",
+        "dev": "concurrently \"npm run dev:api\" \"npm run dev:ui\"",
+        "start": "npm run dev",
+        "postinstall": "npm run install:all"
+    },
+    "devDependencies": {
+        "concurrently": "^8.2.2"
+    }
+}

@@ -1,0 +1,87 @@
+<!-- Controles en pantalla (se ocultan al imprimir) -->
+<div class="no-print d-flex justify-content-center mb-4 fade-in">
+  <div class="premium-card p-4 text-center mt-4" style="max-width: 500px; width: 100%;">
+    <h4 class="fw-bold mb-3"><i class="bi bi-printer me-2 text-primary"></i>Generar Comprobante</h4>
+    @if (loading) {
+    <div class="d-flex align-items-center justify-content-center my-3 text-muted">
+      <span class="spinner-border spinner-border-sm me-2"></span> Cargando ticket...
+    </div>
+    }
+    @if (errorMsg) {
+    <div class="alert alert-danger rounded-3"><i class="bi bi-exclamation-triangle me-2"></i>{{ errorMsg }}</div>
+    }
+    @if (ticket) {
+    <div class="d-flex justify-content-center gap-3 mt-3">
+      <button class="btn btn-primary rounded-pill px-4 shadow-sm" (click)="print()">
+        <i class="bi bi-printer-fill me-1"></i> Imprimir
+      </button>
+      <button class="btn btn-light rounded-pill px-4 text-secondary" (click)="back()">
+        <i class="bi bi-arrow-left me-1"></i> Volver al Cajero
+      </button>
+    </div>
+    }
+  </div>
+</div>
+
+<!-- Comprobante imprimible -->
+@if (ticket) {
+<div class="ticket-print">
+  <div class="ticket-box">
+
+    <div class="ticket-header">
+      <h2>TICKET DE VIAJE</h2>
+      <p class="ticket-company">Sistema de Transporte</p>
+    </div>
+
+    <div class="ticket-body">
+      <div class="ticket-row">
+        <span class="ticket-label">Ticket #</span>
+        <span class="ticket-value">{{ ticket.id }}</span>
+      </div>
+      <div class="ticket-row">
+        <span class="ticket-label">Ruta</span>
+        <span class="ticket-value">{{ ticket.busRoute.name }}</span>
+      </div>
+      <div class="ticket-row">
+        <span class="ticket-label">Origen</span>
+        <span class="ticket-value">{{ ticket.busRoute.origin }}</span>
+      </div>
+      <div class="ticket-row">
+        <span class="ticket-label">Destino</span>
+        <span class="ticket-value">{{ ticket.busRoute.destination }}</span>
+      </div>
+      <div class="ticket-row">
+        <span class="ticket-label">Pasajero</span>
+        <span class="ticket-value">{{ ticket.passengerName }}</span>
+      </div>
+      <div class="ticket-row">
+        <span class="ticket-label">Documento</span>
+        <span class="ticket-value">{{ ticket.passengerDocument }}</span>
+      </div>
+      <div class="ticket-row">
+        <span class="ticket-label">Precio</span>
+        <span class="ticket-value">$ {{ ticket.price | number:'1.2-2' }}</span>
+      </div>
+      <div class="ticket-row">
+        <span class="ticket-label">Fecha Viaje</span>
+        <span class="ticket-value">{{ ticket.travelDate | date:'dd/MM/yyyy' }}</span>
+      </div>
+      <div class="ticket-row">
+        <span class="ticket-label">Emisión</span>
+        <span class="ticket-value">{{ ticket.issuedAt | date:'dd/MM/yyyy HH:mm' }}</span>
+      </div>
+    </div>
+
+    <div class="ticket-qr">
+      <qrcode [qrdata]="ticket.validationCode" [width]="160" [errorCorrectionLevel]="'M'" [allowEmptyString]="false">
+      </qrcode>
+      <p class="ticket-code">{{ ticket.validationCode }}</p>
+    </div>
+
+    <div class="ticket-footer">
+      <p>Conserve este ticket durante todo el viaje.</p>
+    </div>
+
+  </div>
+</div>
+}

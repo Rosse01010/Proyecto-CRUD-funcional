@@ -1,0 +1,4 @@
+bin/
+obj/
+tickets.db
+*.user
