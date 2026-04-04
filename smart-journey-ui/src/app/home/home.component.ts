@@ -13,10 +13,10 @@ import { Router } from '@angular/router';
         <p class="text-muted mb-4 mb-md-5">Bienvenido. Seleccione su rol para continuar gestionando sus viajes.</p>
         
         <div class="d-flex flex-column gap-3">
-          <button class="btn btn-primary btn-lg shadow-sm w-100 rounded-pill" (click)="go('/admin/rutas')">
+          <button id="btn-go-admin" class="btn btn-primary btn-lg shadow-sm w-100 rounded-pill" (click)="go('/admin/rutas')">
             <i class="bi bi-shield-lock me-2"></i> Administración
           </button>
-          <button class="btn btn-outline-secondary btn-lg w-100 rounded-pill" (click)="go('/cajero')">
+          <button id="btn-go-cashier" class="btn btn-outline-secondary btn-lg w-100 rounded-pill" (click)="go('/cajero')">
             <i class="bi bi-cash-coin me-2"></i> Cajero
           </button>
         </div>

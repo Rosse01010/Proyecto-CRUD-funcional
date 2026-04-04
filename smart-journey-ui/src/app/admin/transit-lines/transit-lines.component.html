@@ -1,6 +1,6 @@
 <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center align-items-start mb-4 gap-3">
   <h3 class="fw-bold text-primary mb-0"><i class="bi bi-map me-2"></i>Rutas de Bus</h3>
-  <button class="btn btn-primary rounded-pill px-4 shadow-sm w-100 w-md-auto" (click)="openCreate()">
+  <button id="btn-new-route" class="btn btn-primary rounded-pill px-4 shadow-sm w-100 w-md-auto" (click)="openCreate()">
     <i class="bi bi-plus-lg me-2"></i>Nueva Ruta
   </button>
 </div>
@@ -23,25 +23,27 @@
           }
           <div class="mb-3">
             <label class="form-label text-muted small fw-bold text-uppercase">Nombre</label>
-            <input class="form-control" formControlName="name" placeholder="Ej: Ruta Express Norte">
+            <input id="input-name" class="form-control" formControlName="name" placeholder="Ej: Ruta Express Norte">
           </div>
           <div class="row">
             <div class="col-md-6 mb-3">
               <label class="form-label text-muted small fw-bold text-uppercase">Origen</label>
-              <input class="form-control" formControlName="origin" placeholder="Ciudad A">
+              <input id="input-origin" class="form-control" formControlName="origin" placeholder="Ciudad A">
             </div>
             <div class="col-md-6 mb-3">
               <label class="form-label text-muted small fw-bold text-uppercase">Destino</label>
-              <input class="form-control" formControlName="destination" placeholder="Ciudad B">
+              <input id="input-destination" class="form-control" formControlName="destination" placeholder="Ciudad B">
             </div>
           </div>
           <div class="mb-4">
             <label class="form-label text-muted small fw-bold text-uppercase">Precio</label>
             <div class="input-group">
               <span class="input-group-text bg-white">$</span>
-              <input class="form-control" type="number" formControlName="price" min="0" step="0.01" placeholder="0.00">
+              <input id="input-price" class="form-control" type="number" formControlName="price" min="0" step="0.01"
+                placeholder="0.00">
             </div>
-            <div class="form-text mt-2"><i class="bi bi-info-circle me-1"></i> Este precio se registra en cada voyage-pass
+            <div class="form-text mt-2"><i class="bi bi-info-circle me-1"></i> Este precio se registra en cada
+              voyage-pass
               generado.</div>
           </div>
           <div class="form-check form-switch fs-5">
@@ -51,7 +53,7 @@
         </div>
         <div class="modal-footer border-top-0 pb-4 px-4">
           <button type="button" class="btn btn-light rounded-pill px-4" (click)="cancel()">Cancelar</button>
-          <button type="submit" class="btn btn-primary rounded-pill px-4 shadow-sm"
+          <button id="btn-save-route" type="submit" class="btn btn-primary rounded-pill px-4 shadow-sm"
             [disabled]="saving || routeForm.invalid">
             @if (saving) { <span class="spinner-border spinner-border-sm me-1"></span> }
             <i class="bi bi-check2 me-1"></i> Guardar
